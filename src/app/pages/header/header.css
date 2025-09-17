@@ -1,0 +1,40 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #212121; /* Updated background color */
+  color: #fff;
+  border-bottom: 2px solid #fff; /* Add white divider line */
+}
+
+.logo {
+  font-size: 1.5em;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Add spacing between the icon and the text */
+}
+
+.logo-icon {
+  width: 19px;
+  height: 19px;
+}
+
+.nav ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+.nav a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 1em;
+}
+
+.nav a:hover {
+  text-decoration: underline;
+}

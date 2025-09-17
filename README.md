@@ -1,59 +1,83 @@
-# LuminaSolutions
+# Lumina Solutions - Angular Project
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.1.
+## Descripción
+Este proyecto utiliza Angular para desarrollar una aplicación web moderna y escalable. Angular es un framework de desarrollo frontend basado en TypeScript que permite crear aplicaciones dinámicas y de alto rendimiento.
 
-## Development server
+## Requisitos Previos
+Antes de iniciar el proyecto, asegúrate de tener instalados los siguientes requisitos:
 
-To start a local development server, run:
+### Windows
+1. **Node.js**: Descarga e instala Node.js desde [nodejs.org](https://nodejs.org/).
+2. **Angular CLI**: Instala Angular CLI ejecutando el siguiente comando en PowerShell:
+   ```powershell
+   npm install -g @angular/cli
+   ```
+3. **Git**: Descarga e instala Git desde [git-scm.com](https://git-scm.com/).
 
-```bash
-ng serve
-```
+### Linux
+1. **Node.js**: Instala Node.js utilizando el gestor de paquetes de tu distribución:
+   ```bash
+   sudo apt update
+   sudo apt install nodejs npm
+   ```
+2. **Angular CLI**: Instala Angular CLI ejecutando el siguiente comando:
+   ```bash
+   npm install -g @angular/cli
+   ```
+3. **Git**: Instala Git utilizando el gestor de paquetes de tu distribución:
+   ```bash
+   sudo apt install git
+   ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Instalación del Proyecto
+1. Clona el repositorio:
+   ```bash
+   git clone <URL-del-repositorio>
+   ```
+2. Navega al directorio del proyecto:
+   ```bash
+   cd lumina_solutions
+   ```
+3. Instala las dependencias:
+   ```bash
+   npm install
+   ```
 
-## Code scaffolding
+## Comandos para Iniciar el Proyecto
+### Windows
+1. Abre PowerShell y navega al directorio del proyecto.
+2. Ejecuta el siguiente comando para iniciar el servidor de desarrollo:
+   ```powershell
+   ng serve
+   ```
+3. Abre tu navegador y accede a `http://localhost:4200`.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Linux
+1. Abre la terminal y navega al directorio del proyecto.
+2. Ejecuta el siguiente comando para iniciar el servidor de desarrollo:
+   ```bash
+   ng serve
+   ```
+3. Abre tu navegador y accede a `http://localhost:4200`.
 
-```bash
-ng generate component component-name
-```
+## Estructura del Proyecto
+- **src/**: Contiene el código fuente de la aplicación.
+- **angular.json**: Archivo de configuración de Angular.
+- **package.json**: Lista de dependencias y scripts del proyecto.
+- **README.md**: Documentación del proyecto.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Buenas Prácticas con Angular
+1. **Modularización**: Divide tu aplicación en módulos para mantener el código organizado.
+2. **Componentes Reutilizables**: Crea componentes reutilizables para evitar duplicación de código.
+3. **Servicios**: Utiliza servicios para manejar la lógica de negocio y las llamadas a APIs.
+4. **Rutas**: Configura rutas en `app-routing.module.ts` para gestionar la navegación.
+5. **Pruebas**: Escribe pruebas unitarias utilizando Jasmine y Karma.
+6. **Linting**: Usa herramientas como TSLint para mantener un código limpio y consistente.
 
-```bash
-ng generate --help
-```
+## Recursos Adicionales
+- [Documentación Oficial de Angular](https://angular.io/docs)
+- [Guía de Estilo de Angular](https://angular.io/guide/styleguide)
+- [Tutoriales de Angular](https://angular.io/start)
 
-## Building
+---
 
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
