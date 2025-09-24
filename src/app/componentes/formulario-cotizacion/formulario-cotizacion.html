@@ -1,0 +1,93 @@
+<section class="formulario-cotizacion">
+  <h2>Solicite una Cotización</h2>
+  <p>Cuéntenos sobre su proyecto y seleccione el tipo de servicio que necesita.</p>
+
+  <form [formGroup]="cotizacionForm" (ngSubmit)="preConfirmar()">
+    <div class="campo">
+      <label for="nombre">Nombre completo</label>
+      <input id="nombre" formControlName="nombre" type="text" placeholder="Tu nombre completo" />
+    </div>
+
+    <div class="campo">
+      <label for="correo">Correo electrónico</label>
+      <input id="correo" formControlName="correo" type="email" placeholder="Tu correo electrónico" />
+    </div>
+
+    <div class="campo">
+      <label for="telefono">Teléfono</label>
+      <input id="telefono" formControlName="telefono" type="text" placeholder="Tu número de teléfono" />
+    </div>
+
+    <div class="campo">
+      <label for="ciudad">Ciudad</label>
+      <input id="ciudad" formControlName="ciudad" type="text" placeholder="Tu ciudad de residencia" />
+    </div>
+
+    <div class="campo">
+      <label for="servicio">Tipo de servicio</label>
+      <select id="servicio" formControlName="servicio">
+        <option value="" disabled selected>Seleccione un servicio</option>
+        <option value="Desarrollo de Aplicaciones Móviles">Desarrollo de Aplicaciones Móviles</option>
+        <option value="Consultoría en la Nube">Consultoría en la Nube</option>
+        <option value="Seguridad Cibernética">Seguridad Cibernética</option>
+        <option value="Análisis de Datos">Análisis de Datos</option>
+        <option value="Automatización de Procesos">Automatización de Procesos</option>
+        <option value="Diseño de Experiencia de Usuario">Diseño de Experiencia de Usuario</option>
+        <option value="Soporte Técnico 24/7">Soporte Técnico 24/7</option>
+        <option value="Integración de Sistemas">Integración de Sistemas</option>
+        <option value="Capacitación en Tecnología">Capacitación en Tecnología</option>
+        <option value="Mantenimiento de Infraestructura">Mantenimiento de Infraestructura</option>
+      </select>
+    </div>
+
+    <div class="campo">
+      <label for="descripcion">Descripción del proyecto</label>
+      <textarea id="descripcion" formControlName="descripcion" rows="4" placeholder="Describe tu proyecto..."></textarea>
+    </div>
+
+    <button type="submit" class="boton-enviar">Enviar solicitud</button>
+  </form>
+
+  <!-- Modal de confirmación -->
+  <div *ngIf="mostrarConfirmacion" class="modal-confirmacion">
+    <div class="modal-content">
+      <h3>Confirmar Cotización</h3>
+
+      <div *ngIf="datosPrevios" class="datos-previos">
+        <div class="dato">
+          <span class="etiqueta">Nombre completo:</span>
+          <span class="valor">{{ datosPrevios.nombre }}</span>
+        </div>
+        <div class="dato">
+          <span class="etiqueta">Correo electrónico:</span>
+          <span class="valor">{{ datosPrevios.correo }}</span>
+        </div>
+        <div class="dato">
+          <span class="etiqueta">Teléfono:</span>
+          <span class="valor">{{ datosPrevios.telefono }}</span>
+        </div>
+        <div class="dato">
+          <span class="etiqueta">Ciudad:</span>
+          <span class="valor">{{ datosPrevios.ciudad }}</span>
+        </div>
+        <div class="dato">
+          <span class="etiqueta">Tipo de servicio:</span>
+          <span class="valor">{{ datosPrevios.servicio }}</span>
+        </div>
+        <div class="dato">
+          <span class="etiqueta">Descripción del proyecto:</span>
+          <span class="valor">{{ datosPrevios.descripcion }}</span>
+        </div>
+      </div>
+
+      <div class="modal-buttons">
+        <button (click)="guardarCotizacion()">Confirmar y Enviar</button>
+        <button (click)="cancelarConfirmacion()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="mensajeConfirmacion" class="mensaje-exito">
+    {{ mensajeConfirmacion }}
+  </div>
+</section>
