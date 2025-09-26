@@ -1,0 +1,95 @@
+.formulario-cotizacion {
+  max-width: 600px;
+  margin: auto;
+  padding: 3rem 2rem;
+  background-color: #212121;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  font-family: 'Inter', sans-serif;
+}
+
+.formulario-cotizacion h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: #222;
+}
+
+.formulario-cotizacion p {
+  margin-bottom: 2rem;
+  color: #555;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+  text-align: left; /* Asegura que el texto no se centre */
+}
+
+label {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #E5E8EB;
+  margin-bottom: 0.25rem;
+  position: relative;
+  left: 4px;
+}
+
+input, textarea, select {
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: #313941;
+  color: #E5E8EB;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #334D66;
+  font-style: italic;
+}
+
+select:invalid {
+  color: #aaa;
+}
+
+.boton-enviar {
+  background-color: #38E07A;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.boton-enviar:hover {
+  background-color: #0056b3;
+}
+
+.modal-confirmacion {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-content {
+  background-color: #fff;
+  color: #222;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+}
+
+.datos

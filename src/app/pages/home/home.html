@@ -3,7 +3,10 @@
     <div class="hero-content">
       <h1>Impulsando el Futuro con Soluciones Tecnológicas Innovadoras</h1>
       <p>En Lumina Solutions, transformamos ideas en realidad. Ofrecemos servicios integrales de desarrollo de software, consultoría tecnológica y soluciones en la nube para empresas de todos los tamaños.</p>
-      <button class="cta-button" (click)="requestQuote()">Solicitar Cotización</button>
+      <button class="cta-button" (click)="requestQuote()">
+  {{ mostrarFormulario ? 'Cerrar Formulario' : 'Solicitar Cotización' }}
+</button>
+
     </div>
   </div>
 </section>
@@ -66,8 +69,15 @@
 <section class="quote-section">
   <h2>Solicite una Cotización</h2>
   <p>Cuéntenos sobre su proyecto y le proporcionaremos una cotización personalizada.</p>
-  <button class="cta-button" (click)="requestQuote()">Solicitar Cotización</button>
+
+  <button class="cta-button" (click)="mostrarFormulario = !mostrarFormulario">
+    {{ mostrarFormulario ? 'Cerrar Formulario' : 'Solicitar Cotización' }}
+  </button>
+
+  <app-formulario-cotizacion *ngIf="mostrarFormulario" id="formulario-cotizacion"></app-formulario-cotizacion>
+
 </section>
+
 
 
 <app-footer></app-footer>
