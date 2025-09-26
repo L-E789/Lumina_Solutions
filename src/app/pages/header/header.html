@@ -3,12 +3,21 @@
     <img src="/icono_principal.png" alt="Lumina Solutions Icon" class="logo-icon">
     <span>Lumina Solutions</span>
   </div>
-  <nav class="nav">
+  
+  <!-- Botón hamburguesa -->
+  <button class="mobile-menu-btn" (click)="toggleMobileMenu()" [class.open]="isMobileMenuOpen" 
+          aria-label="Abrir menú de navegación" [attr.aria-expanded]="isMobileMenuOpen">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  
+  <nav class="nav" [class.mobile-open]="isMobileMenuOpen">
     <ul>
-      <li><a href="/home">Inicio</a></li>
-      <li><a href="/services">Servicios</a></li>
-      <li><a href="/contact">Contacto</a></li>
-      <li><a href="/login">Login</a></li>
+      <li><a routerLink="/home" routerLinkActive="active" (click)="closeMobileMenu()">Inicio</a></li>
+      <li><a routerLink="/services" routerLinkActive="active" (click)="closeMobileMenu()">Servicios</a></li>
+      <li><a routerLink="/contact" routerLinkActive="active" (click)="closeMobileMenu()">Contacto</a></li>
+      <li><a routerLink="/login" routerLinkActive="active" (click)="closeMobileMenu()">Login</a></li>
     </ul>
   </nav>
 </header>
