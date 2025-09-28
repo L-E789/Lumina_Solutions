@@ -1,0 +1,43 @@
+/* Estilos principales de la aplicación */
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  width: 100%;
+}
+
+/* Asegurar que las imágenes sean responsivas globalmente */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Evitar overflow horizontal */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+/* Media queries para el contenedor principal */
+@media (max-width: 768px) {
+  .app-container {
+    min-height: 100vh;
+  }
+  
+  .main-content {
+    padding: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 14px;
+  }
+}

@@ -68,9 +68,13 @@ p {
     .services-grid {
         grid-template-columns: repeat(3, 1fr);
     }
+    
+    .services-wrapper {
+        width: 85%;
+    }
 }
 
-@media (max-width: 800px) {
+@media (max-width: 900px) {
     .services-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 15px;
@@ -78,16 +82,65 @@ p {
     
     .services-wrapper {
         width: 90%;
-        padding: 30px;
+        padding: 25px;
+    }
+    
+    .services-container h2 {
+        font-size: 1.8rem;
     }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 600px) {
     .services-grid {
         grid-template-columns: 1fr;
+        gap: 20px;
     }
     
     .services-container {
-        padding: 30px 20px;
+        padding: 30px 15px;
+    }
+    
+    .services-wrapper {
+        width: 95%;
+        padding: 20px;
+    }
+    
+    .services-container h2 {
+        font-size: 1.6rem;
+        margin-bottom: 25px;
+    }
+    
+    .service-image {
+        height: 200px;
+    }
+    
+    h3 {
+        font-size: 1.2rem;
+    }
+    
+    p {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .services-container {
+        padding: 25px 10px;
+    }
+    
+    .services-container h2 {
+        font-size: 1.4rem;
+    }
+    
+    .service-image {
+        height: 160px;
+    }
+    
+    h3 {
+        font-size: 1.1rem;
+    }
+    
+    p {
+        font-size: 0.9rem;
     }
 }

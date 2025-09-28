@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Footer } from '../footer/footer';
 
 @Component({
   selector: 'app-services',
-  imports: [CommonModule, Footer],
+  imports: [CommonModule],
   templateUrl: './services.html',
   styleUrl: './services.css'
 })

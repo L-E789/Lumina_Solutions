@@ -81,6 +81,20 @@
 }
 
 /* Estilos responsivos para dispositivos móviles */
+@media (max-width: 1024px) {
+  .header {
+    padding: 10px 15px;
+  }
+  
+  .logo {
+    font-size: 1.3em;
+  }
+  
+  .nav ul {
+    gap: 15px;
+  }
+}
+
 @media (max-width: 768px) {
   .mobile-menu-btn {
     display: flex;
@@ -98,6 +112,7 @@
     transition: all 0.3s ease;
     border-top: 1px solid #444;
     z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
 
   .nav.mobile-open {
@@ -115,6 +130,7 @@
   .nav ul li {
     border-bottom: 1px solid #444;
     padding: 15px 0;
+    width: 100%;
   }
 
   .nav ul li:last-child {
@@ -125,5 +141,69 @@
     font-size: 1.1em;
     display: block;
     padding: 5px 0;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 8px 10px;
+  }
+  
+  .logo {
+    font-size: 1.1em;
+    gap: 8px;
+  }
+  
+  .logo-icon {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .mobile-menu-btn {
+    padding: 3px;
+  }
+  
+  .mobile-menu-btn span {
+    width: 22px;
+    height: 2.5px;
+    margin: 2.5px 0;
+  }
+  
+  .nav ul {
+    padding: 15px;
+  }
+  
+  .nav ul li {
+    padding: 12px 0;
+  }
+  
+  .nav a {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .header {
+    padding: 6px 8px;
+  }
+  
+  .logo {
+    font-size: 1rem;
+    gap: 6px;
+  }
+  
+  .logo-icon {
+    width: 14px;
+    height: 14px;
+  }
+  
+  .mobile-menu-btn span {
+    width: 20px;
+    height: 2px;
+  }
+  
+  .nav a {
+    font-size: 0.95rem;
   }
 }

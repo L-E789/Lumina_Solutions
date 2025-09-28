@@ -11,7 +11,7 @@
   border-radius: 20px;
   padding: 40px;
   width: 100%;
-  max-width: 300px;
+  max-width: 360px;
   text-align: center;
 }
 
@@ -92,14 +92,61 @@
 }
 
 /* Responsive Design */
+@media (max-width: 768px) {
+  .login-form {
+    padding: 35px 25px;
+    margin: 0 15px;
+    max-width: 350px;
+  }
+}
+
 @media (max-width: 480px) {
+  .login-container {
+    padding: 20px 10px;
+  }
+  
   .login-form {
     padding: 30px 20px;
     margin: 0 10px;
+    max-width: 100%;
   }
   
   .user-icon img {
     width: 80px;
     height: 80px;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group input {
+    padding: 10px 14px;
+    font-size: 0.95rem;
+  }
+  
+  .login-button {
+    min-width: 100px;
+    padding: 10px 25px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .login-form {
+    padding: 25px 15px;
+  }
+  
+  .user-icon img {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .form-group input {
+    padding: 8px 12px;
+  }
+  
+  .login-button {
+    padding: 8px 20px;
   }
 }

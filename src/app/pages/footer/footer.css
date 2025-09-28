@@ -77,15 +77,73 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .footer {
+    padding: 25px 15px 15px;
+  }
+  
   .footer-top-row,
   .footer-bottom-row {
-    gap: 20px;
+    gap: 15px;
     flex-direction: column;
   }
   
   .footer-top-row a,
   .footer-bottom-row a {
     display: block;
-    margin: 5px 0;
+    margin: 3px 0;
+    font-size: 0.9rem;
+  }
+  
+  .footer-social {
+    margin-bottom: 20px;
+  }
+  
+  .footer-social a {
+    margin: 0 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: 20px 10px 10px;
+  }
+  
+  .footer-top-row,
+  .footer-bottom-row {
+    gap: 10px;
+  }
+  
+  .footer-top-row a,
+  .footer-bottom-row a {
+    font-size: 0.85rem;
+    margin: 2px 0;
+  }
+  
+  .footer-social a {
+    margin: 0 8px;
+  }
+  
+  .social-icon {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .footer-copyright {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .footer {
+    padding: 15px 8px 8px;
+  }
+  
+  .footer-social a {
+    margin: 0 6px;
+  }
+  
+  .social-icon {
+    width: 18px;
+    height: 18px;
   }
 }

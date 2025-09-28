@@ -203,23 +203,117 @@
 }
 
 /* Responsive Design */
+@media (max-width: 1200px) {
+  .hero {
+    padding: 40px 20px;
+  }
+  
+  .hero-background {
+    padding: 80px 30px;
+  }
+}
+
 @media (max-width: 768px) {
+  .hero {
+    padding: 20px 10px;
+  }
+  
+  .hero-background {
+    padding: 60px 20px;
+    min-height: 50vh;
+  }
+  
   .hero-content h1 {
     font-size: 2rem;
+    margin-bottom: 15px;
   }
   
   .hero-content p {
     font-size: 1rem;
+    margin-bottom: 25px;
+  }
+  
+  .cta-button {
+    padding: 12px 25px;
+    font-size: 1rem;
+  }
+  
+  .services {
+    padding: 60px 15px;
   }
   
   .services h2,
   .success-stories h2,
   .quote-section h2 {
     font-size: 2rem;
+    margin-bottom: 15px;
   }
   
   .service-cards,
   .success-cards {
     grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .service-card,
+  .success-card {
+    padding: 20px;
+  }
+  
+  .success-stories {
+    padding: 60px 15px;
+  }
+  
+  .quote-section {
+    padding: 60px 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-background {
+    padding: 40px 15px;
+    min-height: 40vh;
+    border-radius: 10px;
+  }
+  
+  .hero-content h1 {
+    font-size: 1.5rem;
+    line-height: 1.3;
+  }
+  
+  .hero-content p {
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+  }
+  
+  .cta-button {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+  
+  .services,
+  .success-stories,
+  .quote-section {
+    padding: 40px 10px;
+  }
+  
+  .services h2,
+  .success-stories h2,
+  .quote-section h2 {
+    font-size: 1.5rem;
+  }
+  
+  .service-icon {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+  }
+  
+  .service-card h3 {
+    font-size: 1.1rem;
+  }
+  
+  .service-card p,
+  .success-card p {
+    font-size: 0.9rem;
   }
 }

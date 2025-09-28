@@ -122,10 +122,12 @@
 @media (max-width: 768px) {
   .contact-container {
     padding: 20px 15px;
+    min-height: 90vh;
   }
   
   .contact-form {
     max-width: 100%;
+    padding: 0 10px;
   }
   
   .contact-form h1 {
@@ -139,18 +141,46 @@
 }
 
 @media (max-width: 480px) {
+  .contact-container {
+    padding: 15px 10px;
+  }
+  
   .contact-form h1 {
     font-size: 1.6rem;
+    margin-bottom: 25px;
+  }
+  
+  .form-group {
+    margin-bottom: 18px;
   }
   
   .form-group input,
   .form-group select,
   .form-group textarea {
     padding: 10px 14px;
+    font-size: 0.95rem;
   }
   
   .submit-button {
     min-width: 140px;
     padding: 10px 24px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .contact-form h1 {
+    font-size: 1.4rem;
+  }
+  
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 8px 12px;
+  }
+  
+  .submit-button {
+    min-width: 120px;
+    padding: 8px 20px;
   }
 }

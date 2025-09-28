@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Footer } from "../footer/footer";
 
 @Component({
   selector: 'app-home',
-  imports: [Footer],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
