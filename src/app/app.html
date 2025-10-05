@@ -1,7 +1,7 @@
 <div class="app-container">
-  <app-header></app-header>
-  <main class="main-content">
+  <app-header *ngIf="!isDashboardRoute"></app-header>
+  <main class="main-content" [class.dashboard-mode]="isDashboardRoute">
     <router-outlet></router-outlet>
   </main>
-  <app-footer></app-footer>
+  <app-footer *ngIf="!isDashboardRoute"></app-footer>
 </div>

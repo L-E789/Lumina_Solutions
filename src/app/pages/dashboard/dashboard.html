@@ -1,1 +1,217 @@
-<p>dashboard works!</p>
+<div class="dashboard-container">
+  <!-- Mobile Header -->
+  <header class="mobile-header">
+    <button class="mobile-menu-toggle" (click)="toggleMobileMenu()" [class.open]="isMobileMenuOpen" 
+            aria-label="Abrir menú de navegación" [attr.aria-expanded]="isMobileMenuOpen">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <h1 class="mobile-title">{{ getSectionTitle() }}</h1>
+  </header>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" [class.mobile-open]="isMobileMenuOpen">
+    <nav class="sidebar-nav">
+      <ul>
+        <li class="nav-item" [class.active]="activeSection === 'servicios'">
+          <button class="nav-button" (click)="selectSection('servicios'); closeMobileMenu()">
+            <img src="services.png" alt="Servicios" class="nav-icon" />
+            <span class="nav-text">Servicios</span>
+          </button>
+        </li>
+        <li class="nav-item" [class.active]="activeSection === 'clientes'">
+          <button class="nav-button" (click)="selectSection('clientes'); closeMobileMenu()">
+            <img src="clients.png" alt="Clientes" class="nav-icon" />
+            <span class="nav-text">Clientes</span>
+          </button>
+        </li>
+        <li class="nav-item" [class.active]="activeSection === 'ventas'">
+          <button class="nav-button" (click)="selectSection('ventas'); closeMobileMenu()">
+            <img src="seles.png" alt="Ventas" class="nav-icon" />
+            <span class="nav-text">Ventas</span>
+          </button>
+        </li>
+        <li class="nav-item" [class.active]="activeSection === 'configuracion'">
+          <button class="nav-button" (click)="selectSection('configuracion'); closeMobileMenu()">
+            <img src="configurations.png" alt="Configuración" class="nav-icon" />
+            <span class="nav-text">Configuración</span>
+          </button>
+        </li>
+      </ul>
+    </nav>
+    
+    <div class="sidebar-footer">
+      <button class="logout-button" (click)="logout()">
+        <img src="exit.png" alt="Salir" class="nav-icon" />
+        <span class="nav-text">Salir</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Header -->
+    <header class="dashboard-header">
+      <h1 class="page-title">{{ getSectionTitle() }}</h1>
+      <button class="create-button" (click)="createItem()">
+        {{ getCreateButtonText() }}
+      </button>
+    </header>
+
+    <!-- Search Bar -->
+    <div class="search-container">
+      <div class="search-box">
+        <img src="search.png" alt="Buscar" class="search-icon" />
+        <label for="dashboard-search" class="visually-hidden">Buscar en {{getSectionName()}}</label>
+        <input 
+          id="dashboard-search"
+          type="text" 
+          [placeholder]="getSearchPlaceholder()" 
+          [(ngModel)]="searchTerm"
+          (input)="filterContent()"
+          class="search-input"
+          [attr.aria-label]="'Buscar en ' + getSectionName()"
+        >
+      </div>
+    </div>
+
+    <!-- Content Tables -->
+    <div class="table-container">
+      
+      <!-- Services Table -->
+      <table *ngIf="activeSection === 'servicios'" class="data-table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Precio</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let service of filteredServices" class="table-row">
+            <td class="item-name">{{ service.nombre }}</td>
+            <td class="item-description">{{ service.descripcion }}</td>
+            <td class="item-price">${{ service.precio }}</td>
+            <td>
+              <span 
+                class="status-badge" 
+                [class.active]="service.estado === 'Activo'"
+                [class.inactive]="service.estado === 'Inactivo'"
+              >
+                {{ service.estado }}
+              </span>
+            </td>
+            <td>
+              <button class="edit-button" (click)="editService(service)">
+                Editar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Clients Table -->
+      <table *ngIf="activeSection === 'clientes'" class="data-table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Empresa</th>
+            <th>Teléfono</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let client of filteredClients" class="table-row">
+            <td class="item-name">{{ client.nombre }}</td>
+            <td class="item-email">{{ client.email }}</td>
+            <td class="item-company">{{ client.empresa }}</td>
+            <td class="item-phone">{{ client.telefono }}</td>
+            <td>
+              <span 
+                class="status-badge" 
+                [class.active]="client.estado === 'Activo'"
+                [class.inactive]="client.estado === 'Inactivo'"
+              >
+                {{ client.estado }}
+              </span>
+            </td>
+            <td>
+              <button class="edit-button" (click)="editClient(client)">
+                Editar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Sales Table -->
+      <table *ngIf="activeSection === 'ventas'" class="data-table">
+        <thead>
+          <tr>
+            <th>Cliente</th>
+            <th>Servicio</th>
+            <th>Fecha</th>
+            <th>Monto</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let sale of filteredSales" class="table-row">
+            <td class="item-name">{{ sale.cliente }}</td>
+            <td class="item-service">{{ sale.servicio }}</td>
+            <td class="item-date">{{ sale.fecha }}</td>
+            <td class="item-price">${{ sale.monto }}</td>
+            <td>
+              <span 
+                class="status-badge" 
+                [class.completed]="sale.estado === 'Completada'"
+                [class.pending]="sale.estado === 'Pendiente'"
+                [class.cancelled]="sale.estado === 'Cancelada'"
+              >
+                {{ sale.estado }}
+              </span>
+            </td>
+            <td>
+              <button class="edit-button" (click)="editSale(sale)">
+                Editar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Configuration Table -->
+      <table *ngIf="activeSection === 'configuracion'" class="data-table">
+        <thead>
+          <tr>
+            <th>Categoría</th>
+            <th>Configuración</th>
+            <th>Valor</th>
+            <th>Descripción</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let config of filteredConfigs" class="table-row">
+            <td class="item-category">{{ config.categoria }}</td>
+            <td class="item-name">{{ config.configuracion }}</td>
+            <td class="item-value">{{ config.valor }}</td>
+            <td class="item-description">{{ config.descripcion }}</td>
+            <td>
+              <button class="edit-button" (click)="editConfig(config)">
+                Editar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </main>
+</div>
