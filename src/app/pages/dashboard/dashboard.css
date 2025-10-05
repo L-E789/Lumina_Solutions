@@ -327,6 +327,24 @@
   color: #fff;
 }
 
+/* Status Button */
+.status-button {
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  color: white;
+}
+
+.status-button.active {
+  background-color: #264533; /* Green color for active */
+}
+
+.status-button.inactive {
+  background-color: #dc3545; /* Red color for inactive */
+}
+
 /* Edit Button */
 .edit-button {
   background-color: #264533; /* Verde oscuro como en la imagen */
@@ -341,6 +359,24 @@
 }
 
 .edit-button:hover {
+  background-color: #3a3a3a; /* Gris oscuro al pasar el mouse */
+}
+
+/* Info Button */
+.info-button {
+  background-color: #264533; /* Verde oscuro como el botón de editar */
+  color: #fff; /* Texto blanco */
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  margin-left: 8px; /* Espaciado entre botones */
+  transition: background-color 0.3s ease;
+}
+
+.info-button:hover {
   background-color: #3a3a3a; /* Gris oscuro al pasar el mouse */
 }
 
@@ -395,6 +431,346 @@
 
 .mobile-menu-toggle.open span:nth-child(3) {
   transform: rotate(-45deg) translate(7px, -6px);
+}
+
+/* Estilos elegantes para el popup de información del cliente "Por contactar" */
+.client-info-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  animation: fadeIn 0.3s ease;
+  background-color: #808080; /* Changed background to gray */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.client-info-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.85);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+.client-info-content {
+  position: relative;
+  background: linear-gradient(145deg, #2d2d2d, #3a3a3a);
+  border: 1px solid #555555;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  width: 90%;
+  max-width: 650px;
+  max-height: 85vh;
+  overflow: hidden;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.client-info-header {
+  background-color: #3a3a3a;
+  padding: 20px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #666666;
+}
+
+.client-info-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: white; /* Changed to gray */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.client-info-header h2::before {
+  font-size: 1.8rem;
+}
+
+.client-info-close-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 24px;
+  cursor: pointer;
+  color: #fff;
+  line-height: 1;
+  padding: 0;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+}
+
+.client-info-close-btn:hover {
+  background: rgba(231, 76, 60, 0.2);
+  border-color: #e74c3c;
+  color: #e74c3c;
+  transform: rotate(90deg);
+}
+
+.client-info-body {
+  padding: 25px;
+  max-height: calc(85vh - 180px);
+  overflow-y: auto;
+}
+
+.client-info-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.client-info-body::-webkit-scrollbar-track {
+  background: #1a1a1a;
+  border-radius: 4px;
+}
+
+.client-info-body::-webkit-scrollbar-thumb {
+  background: #555555;
+  border-radius: 4px;
+}
+
+.client-info-body::-webkit-scrollbar-thumb:hover {
+  background: #777777;
+}
+
+.client-info-section {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.client-info-section:last-child {
+  margin-bottom: 0;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #ccc;
+  min-width: 160px;
+}
+
+.info-value {
+  font-size: 1rem;
+  color: #fff;
+  text-align: right;
+  flex: 1;
+  word-break: break-word;
+}
+
+.info-email {
+  color: #999999;
+  text-decoration: none;
+}
+
+.info-service {
+  color: #aaaaaa;
+  font-weight: 500;
+}
+
+.info-description {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.info-description .info-label {
+  min-width: auto;
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.info-description-text {
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 15px;
+  border-radius: 6px;
+  border-left: 3px solid #666666;
+  color: #fff;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  text-align: left;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.info-description-text::-webkit-scrollbar {
+  width: 6px;
+}
+
+.info-description-text::-webkit-scrollbar-track {
+  background: #1a1a1a;
+  border-radius: 3px;
+}
+
+.info-description-text::-webkit-scrollbar-thumb {
+  background: #555555;
+  border-radius: 3px;
+}
+
+.client-info-footer {
+  background-color: #1a1a1a;
+  padding: 20px 25px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  border-top: 1px solid #404040;
+}
+
+.btn-close-info {
+  background-color: #3a3a3a;
+  color: #fff;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-close-info:hover {
+  background-color: #555555;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(80, 80, 80, 0.3);
+}
+
+/* Responsive para el popup de información */
+@media (max-width: 768px) {
+  .client-info-content {
+    width: 95%;
+    max-height: 90vh;
+  }
+
+  .client-info-header {
+    padding: 15px 20px;
+  }
+
+  .client-info-header h2 {
+    font-size: 1.2rem;
+  }
+
+  .client-info-body {
+    padding: 20px;
+    max-height: calc(90vh - 160px);
+  }
+
+  .info-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .info-label {
+    min-width: auto;
+  }
+
+  .info-value {
+    text-align: left;
+  }
+
+  .client-info-footer {
+    padding: 15px 20px;
+  }
+
+  .btn-close-info {
+    width: 100%;
+  }
+}
+
+/* Estilos antiguos del popup - mantener por compatibilidad */
+.info-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8); /* Darker overlay */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background-color: #1a1a1a; /* Match dashboard background */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Slightly darker shadow */
+  text-align: center;
+  width: 90%;
+  max-width: 400px;
+  color: #fff; /* White text */
+}
+
+.popup-content h2 {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  color: #00d47e; /* Green accent */
+}
+
+.popup-content p {
+  margin-bottom: 10px;
+  font-size: 1rem;
+  color: #ccc; /* Light gray text */
+}
+
+.close-button {
+  background-color: #264533; /* Match dashboard button */
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.close-button:hover {
+  background-color: #3a3a3a; /* Hover effect */
 }
 
 /* Responsive Design */
@@ -508,6 +884,11 @@
   }
   
   .edit-button {
+    padding: 4px 8px;
+    font-size: 10px;
+  }
+  
+  .info-button {
     padding: 4px 8px;
     font-size: 10px;
   }

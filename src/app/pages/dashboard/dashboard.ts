@@ -1,7 +1,10 @@
-import { Component, OnDestroy, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { DashboardService } from '../../service/dashboard-service';
+import { PopupComponent } from '../../components/popup/popup.component';
+import { ChangeStatusPopupComponent } from '../../components/change-status-popup/change-status-popup.component';
 
 interface Service {
   id: number;
@@ -9,6 +12,7 @@ interface Service {
   descripcion: string;
   precio: string;
   estado: 'Activo' | 'Inactivo';
+  imagenUrl: string;
 }
 
 interface Client {
@@ -18,7 +22,9 @@ interface Client {
   telefono: string;
   empresa: string;
   fechaRegistro: string;
-  estado: 'Activo' | 'Inactivo';
+  estado: 'Activo' | 'Inactivo' | 'Por contactar';
+  servicio?: string;
+  descripcion?: string;
 }
 
 interface Sale {
@@ -40,165 +46,82 @@ interface Config {
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, PopupComponent, ChangeStatusPopupComponent],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
-export class Dashboard implements OnDestroy {
+export class Dashboard implements OnInit, OnDestroy {
   searchTerm: string = '';
   activeSection: string = 'servicios';
   isMobileMenuOpen: boolean = false;
+  isPopupVisible: boolean = false;
+  popupTitle: string = '';
+  isEditMode: boolean = false;
+  isChangeStatusPopupVisible: boolean = false;
+  currentStatus: 'Activo' | 'Inactivo' = 'Activo';
+  isInfoPopupVisible: boolean = false;
   
-  services: Service[] = [
-    {
-      id: 1,
-      nombre: 'Desarrollo de Aplicaciones Móviles',
-      descripcion: 'Creación de aplicaciones para iOS y Android.',
-      precio: '40,000,000.00',
-      estado: 'Activo'
-    },
-    {
-      id: 2,
-      nombre: 'Diseño de Interfaces de Usuario (UI/UX)',
-      descripcion: 'Diseño de interfaces intuitivas y atractivas.',
-      precio: '15,000,000.00',
-      estado: 'Activo'
-    },
-    {
-      id: 3,
-      nombre: 'Consultoría en Tecnología',
-      descripcion: 'Asesoramiento estratégico en tecnología.',
-      precio: '5,000,000.00',
-      estado: 'Activo'
-    },
-    {
-      id: 4,
-      nombre: 'Mantenimiento de Software',
-      descripcion: 'Soporte y actualizaciones para aplicaciones existentes.',
-      precio: '30,000,000.00',
-      estado: 'Inactivo'
-    },
-    {
-      id: 5,
-      nombre: 'Integración de Sistemas',
-      descripcion: 'Conexión de diferentes sistemas de software.',
-      precio: '10,000,000.00',
-      estado: 'Activo'
-    }
-  ];
+  services: Service[] = [];
+  filteredServices: Service[] = [];
+
+  clients: Client[] = [];
+  filteredClients: Client[] = [];
+
+  sales: Sale[] = [];
+  filteredSales: Sale[] = [];
+
+  configurations: Config[] = [];
+  filteredConfigs: Config[] = [];
+
+  // Formulario para el popup
+  formData: any = {
+    id: 0,
+    nombre: '',
+    descripcion: '',
+    precio: '',
+    estado: 'Activo',
+    imagenUrl: '',
+    email: '',
+    telefono: '',
+    empresa: '',
+    fechaRegistro: '',
+    cliente: '',
+    servicio: '',
+    fecha: '',
+    monto: '',
+    categoria: '',
+    configuracion: '',
+    valor: ''
+  };
   
-  filteredServices: Service[] = [...this.services];
+  selectedClient: Client | null = null;
   
-  clients: Client[] = [
-    {
-      id: 1,
-      nombre: 'Carlos Mendoza',
-      email: 'carlos.mendoza@empresa.com',
-      telefono: '+57 300 123 4567',
-      empresa: 'TechCorp S.A.S',
-      fechaRegistro: '2024-01-15',
-      estado: 'Activo'
-    },
-    {
-      id: 2,
-      nombre: 'Ana García',
-      email: 'ana.garcia@startup.co',
-      telefono: '+57 310 987 6543',
-      empresa: 'InnovaStartup',
-      fechaRegistro: '2024-02-20',
-      estado: 'Activo'
-    },
-    {
-      id: 3,
-      nombre: 'Roberto Silva',
-      email: 'roberto.silva@comercio.com',
-      telefono: '+57 320 456 7890',
-      empresa: 'ComercioDigital Ltda',
-      fechaRegistro: '2024-03-10',
-      estado: 'Inactivo'
-    },
-    {
-      id: 4,
-      nombre: 'María López',
-      email: 'maria.lopez@fintech.co',
-      telefono: '+57 315 234 5678',
-      empresa: 'FinTech Solutions',
-      fechaRegistro: '2024-04-05',
-      estado: 'Activo'
-    }
-  ];
+  constructor(private router: Router, private dashboardService: DashboardService) {
+    this.loadData();
+  }
   
-  sales: Sale[] = [
-    {
-      id: 1,
-      cliente: 'TechCorp S.A.S',
-      servicio: 'Desarrollo de Aplicaciones Móviles',
-      fecha: '2024-06-15',
-      monto: '40,000,000.00',
-      estado: 'Completada'
-    },
-    {
-      id: 2,
-      cliente: 'InnovaStartup',
-      servicio: 'Diseño de Interfaces UI/UX',
-      fecha: '2024-07-20',
-      monto: '15,000,000.00',
-      estado: 'Completada'
-    },
-    {
-      id: 3,
-      cliente: 'FinTech Solutions',
-      servicio: 'Consultoría en Tecnología',
-      fecha: '2024-08-10',
-      monto: '5,000,000.00',
-      estado: 'Pendiente'
-    },
-    {
-      id: 4,
-      cliente: 'ComercioDigital Ltda',
-      servicio: 'Integración de Sistemas',
-      fecha: '2024-09-05',
-      monto: '10,000,000.00',
-      estado: 'Cancelada'
-    }
-  ];
+  ngOnInit() {
+    // Recargar datos cuando el componente se inicializa
+    this.loadData();
+  }
   
-  configurations: Config[] = [
-    {
-      id: 1,
-      categoria: 'General',
-      configuracion: 'Nombre de la Empresa',
-      valor: 'Lumina Solutions',
-      descripcion: 'Nombre oficial de la empresa'
-    },
-    {
-      id: 2,
-      categoria: 'General',
-      configuracion: 'Email Corporativo',
-      valor: 'contacto@luminasolutions.com',
-      descripcion: 'Email principal de contacto'
-    },
-    {
-      id: 3,
-      categoria: 'Facturación',
-      configuracion: 'Impuesto IVA',
-      valor: '19%',
-      descripcion: 'Porcentaje de IVA aplicado'
-    },
-    {
-      id: 4,
-      categoria: 'Seguridad',
-      configuracion: 'Sesión Admin',
-      valor: '30 minutos',
-      descripcion: 'Tiempo de expiración de sesión'
-    }
-  ];
-  
-  filteredClients: Client[] = [...this.clients];
-  filteredSales: Sale[] = [...this.sales];
-  filteredConfigs: Config[] = [...this.configurations];
-  
-  constructor(private router: Router) {}
+  loadData() {
+    const storedServices = localStorage.getItem('services');
+    this.services = storedServices ? JSON.parse(storedServices) : this.dashboardService.getServices();
+    this.filteredServices = [...this.services];
+
+    const storedClients = localStorage.getItem('clients');
+    this.clients = storedClients ? JSON.parse(storedClients) : this.dashboardService.getClients();
+    this.filteredClients = [...this.clients];
+
+    const storedSales = localStorage.getItem('sales');
+    this.sales = storedSales ? JSON.parse(storedSales) : this.dashboardService.getSales();
+    this.filteredSales = [...this.sales];
+
+    const storedConfigurations = localStorage.getItem('configurations');
+    this.configurations = storedConfigurations ? JSON.parse(storedConfigurations) : this.dashboardService.getConfigurations();
+    this.filteredConfigs = [...this.configurations];
+  }
   
   selectSection(section: string) {
     this.activeSection = section;
@@ -275,40 +198,243 @@ export class Dashboard implements OnDestroy {
   }
   
   createItem() {
+    this.isEditMode = false;
+    this.resetFormData();
     switch(this.activeSection) {
       case 'servicios':
-        console.log('Crear nuevo servicio');
-        // Aquí iría un modal o formulario para crear servicio
+        this.popupTitle = 'Crear nuevo servicio';
+        this.isPopupVisible = true;
         break;
       case 'clientes':
-        console.log('Crear nuevo cliente');
-        // Aquí iría un modal o formulario para crear cliente
+        this.popupTitle = 'Crear nuevo cliente';
+        this.isPopupVisible = true;
         break;
       case 'ventas':
-        console.log('Crear nueva venta');
-        // Aquí iría un modal o formulario para crear venta
+        this.popupTitle = 'Crear nueva venta';
+        this.isPopupVisible = true;
         break;
       case 'configuracion':
-        console.log('Crear nueva configuración');
-        // Aquí iría un modal o formulario para crear configuración
+        this.popupTitle = 'Crear nueva configuración';
+        this.isPopupVisible = true;
         break;
     }
   }
   
+  closePopup() {
+    this.isPopupVisible = false;
+    this.resetFormData();
+  }
+  
   editService(service: Service) {
-    console.log('Editar servicio:', service);
+    this.isEditMode = true;
+    this.popupTitle = 'Editar servicio';
+    this.formData = { ...service };
+    this.activeSection = 'servicios';
+    this.isPopupVisible = true;
   }
   
   editClient(client: Client) {
-    console.log('Editar cliente:', client);
+    this.isEditMode = true;
+    this.popupTitle = 'Editar cliente';
+    const selectedClient = this.clients.find(c => c.id === client.id); // Find client by ID
+    if (selectedClient) {
+      this.formData = { ...selectedClient };
+    }
+    this.activeSection = 'clientes';
+    this.isPopupVisible = true;
+    this.isInfoPopupVisible = false; // Ensure info popup is not triggered
   }
   
   editSale(sale: Sale) {
-    console.log('Editar venta:', sale);
+    this.isEditMode = true;
+    this.popupTitle = 'Editar venta';
+    this.formData = { ...sale };
+    this.activeSection = 'ventas';
+    this.isPopupVisible = true;
   }
   
   editConfig(config: Config) {
-    console.log('Editar configuración:', config);
+    this.isEditMode = true;
+    this.popupTitle = 'Editar configuración';
+    this.formData = { ...config };
+    this.activeSection = 'configuracion';
+    this.isPopupVisible = true;
+  }
+
+  saveItem() {
+    if (this.isEditMode) {
+      // Update existing item based on active section
+      switch(this.activeSection) {
+        case 'servicios':
+          const serviceIndex = this.services.findIndex(service => service.id === this.formData.id);
+          if (serviceIndex !== -1) {
+            this.services[serviceIndex] = { ...this.formData };
+            this.filteredServices = [...this.services];
+            localStorage.setItem('services', JSON.stringify(this.services));
+          }
+          break;
+        case 'clientes':
+          const clientIndex = this.clients.findIndex(client => client.id === this.formData.id);
+          if (clientIndex !== -1) {
+            this.clients[clientIndex] = { ...this.formData };
+            this.filteredClients = [...this.clients];
+            localStorage.setItem('clients', JSON.stringify(this.clients));
+          }
+          break;
+        case 'ventas':
+          const saleIndex = this.sales.findIndex(sale => sale.id === this.formData.id);
+          if (saleIndex !== -1) {
+            this.sales[saleIndex] = { ...this.formData };
+            this.filteredSales = [...this.sales];
+            localStorage.setItem('sales', JSON.stringify(this.sales));
+          }
+          break;
+        case 'configuracion':
+          const configIndex = this.configurations.findIndex(config => config.id === this.formData.id);
+          if (configIndex !== -1) {
+            this.configurations[configIndex] = { ...this.formData };
+            this.filteredConfigs = [...this.configurations];
+            localStorage.setItem('configurations', JSON.stringify(this.configurations));
+          }
+          break;
+      }
+    } else {
+      // Add new item based on active section
+      switch(this.activeSection) {
+        case 'servicios':
+          const newServiceId = this.services.length > 0 ? Math.max(...this.services.map(s => s.id)) + 1 : 1;
+          this.services.push({ ...this.formData, id: newServiceId });
+          this.filteredServices = [...this.services];
+          localStorage.setItem('services', JSON.stringify(this.services));
+          break;
+        case 'clientes':
+          const newClientId = this.clients.length > 0 ? Math.max(...this.clients.map(c => c.id)) + 1 : 1;
+          this.clients.push({ ...this.formData, id: newClientId });
+          this.filteredClients = [...this.clients];
+          localStorage.setItem('clients', JSON.stringify(this.clients));
+          break;
+        case 'ventas':
+          const newSaleId = this.sales.length > 0 ? Math.max(...this.sales.map(s => s.id)) + 1 : 1;
+          this.sales.push({ ...this.formData, id: newSaleId });
+          this.filteredSales = [...this.sales];
+          localStorage.setItem('sales', JSON.stringify(this.sales));
+          break;
+        case 'configuracion':
+          const newConfigId = this.configurations.length > 0 ? Math.max(...this.configurations.map(c => c.id)) + 1 : 1;
+          this.configurations.push({ ...this.formData, id: newConfigId });
+          this.filteredConfigs = [...this.configurations];
+          localStorage.setItem('configurations', JSON.stringify(this.configurations));
+          break;
+      }
+    }
+    this.isPopupVisible = false;
+    this.resetFormData();
+  }
+
+  addItem() {
+    switch(this.activeSection) {
+      case 'servicios':
+        const newService: Service = {
+          id: this.services.length + 1,
+          nombre: this.formData.nombre,
+          descripcion: this.formData.descripcion,
+          precio: this.formData.precio,
+          estado: this.formData.estado,
+          imagenUrl: this.formData.imagenUrl || ''
+        };
+        this.dashboardService.addService(newService);
+        this.services = this.dashboardService.getServices();
+        this.filteredServices = [...this.services];
+        break;
+      case 'clientes':
+        const newClient: Client = {
+          id: this.clients.length + 1,
+          nombre: this.formData.nombre,
+          email: this.formData.email,
+          telefono: this.formData.telefono,
+          empresa: this.formData.empresa,
+          fechaRegistro: new Date().toISOString().split('T')[0],
+          estado: this.formData.estado
+        };
+        this.dashboardService.addClient(newClient);
+        this.clients = this.dashboardService.getClients();
+        this.filteredClients = [...this.clients];
+        break;
+      case 'ventas':
+        const newSale: Sale = {
+          id: this.sales.length + 1,
+          cliente: this.formData.cliente,
+          servicio: this.formData.servicio,
+          fecha: this.formData.fecha,
+          monto: this.formData.monto,
+          estado: this.formData.estado
+        };
+        this.dashboardService.addSale(newSale);
+        this.sales = this.dashboardService.getSales();
+        this.filteredSales = [...this.sales];
+        break;
+      case 'configuracion':
+        const newConfig: Config = {
+          id: this.configurations.length + 1,
+          categoria: this.formData.categoria,
+          configuracion: this.formData.configuracion,
+          valor: this.formData.valor,
+          descripcion: this.formData.descripcion
+        };
+        this.dashboardService.addConfig(newConfig);
+        this.configurations = this.dashboardService.getConfigurations();
+        this.filteredConfigs = [...this.configurations];
+        break;
+    }
+    this.closePopup();
+  }
+
+  updateItem() {
+    switch(this.activeSection) {
+      case 'servicios':
+        this.dashboardService.updateService(this.formData.id, this.formData);
+        this.services = this.dashboardService.getServices();
+        this.filteredServices = [...this.services];
+        break;
+      case 'clientes':
+        this.dashboardService.updateClient(this.formData.id, this.formData);
+        this.clients = this.dashboardService.getClients();
+        this.filteredClients = [...this.clients];
+        break;
+      case 'ventas':
+        this.dashboardService.updateSale(this.formData.id, this.formData);
+        this.sales = this.dashboardService.getSales();
+        this.filteredSales = [...this.sales];
+        break;
+      case 'configuracion':
+        this.dashboardService.updateConfig(this.formData.id, this.formData);
+        this.configurations = this.dashboardService.getConfigurations();
+        this.filteredConfigs = [...this.configurations];
+        break;
+    }
+    this.closePopup();
+  }
+
+  resetFormData() {
+    this.formData = {
+      id: 0,
+      nombre: '',
+      descripcion: '',
+      precio: '',
+      estado: 'Activo',
+      imagenUrl: '',
+      email: '',
+      telefono: '',
+      empresa: '',
+      fechaRegistro: '',
+      cliente: '',
+      servicio: '',
+      fecha: '',
+      monto: '',
+      categoria: '',
+      configuracion: '',
+      valor: ''
+    };
   }
   
   getSectionTitle(): string {
@@ -376,5 +502,48 @@ export class Dashboard implements OnDestroy {
   beforeUnloadHandler(event: any) {
     // Limpiar sesión cuando se cierra la pestaña/ventana
     sessionStorage.removeItem('adminAuthenticated');
+  }
+
+  toggleServiceStatus(service: Service) {
+    const confirmation = confirm(`¿Estás seguro de que deseas cambiar el estado del servicio "${service.nombre}" a ${service.estado === 'Activo' ? 'Inactivo' : 'Activo'}?`);
+    if (confirmation) {
+      const updatedStatus = service.estado === 'Activo' ? 'Inactivo' : 'Activo';
+      service.estado = updatedStatus;
+      this.dashboardService.updateServiceStatus(service.id, updatedStatus);
+    }
+  }
+
+  openChangeStatusPopup(service: Service) {
+    this.currentStatus = service.estado;
+    this.formData.id = service.id;
+    this.isChangeStatusPopupVisible = true;
+  }
+
+  handleStatusChange(newStatus: 'Activo' | 'Inactivo') {
+    const serviceToUpdate = this.services.find(service => service.id === this.formData.id);
+    if (serviceToUpdate) {
+      serviceToUpdate.estado = newStatus;
+      this.filteredServices = [...this.services];
+      localStorage.setItem('services', JSON.stringify(this.services));
+    }
+    this.isChangeStatusPopupVisible = false;
+  }
+
+  closeChangeStatusPopup() {
+    this.isChangeStatusPopupVisible = false;
+  }
+
+  // Function to display detailed client information in the popup
+  showClientInfo(client: Client) {
+    if (client.estado === 'Por contactar') {
+      this.selectedClient = client; // Store the selected client data
+      this.isInfoPopupVisible = true; // Show the info popup
+      this.isPopupVisible = false; // Ensure edit popup is not triggered
+    }
+  }
+
+  closeInfoPopup() {
+    this.isInfoPopupVisible = false;
+    this.selectedClient = null;
   }
 }
