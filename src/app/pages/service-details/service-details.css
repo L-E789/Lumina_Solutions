@@ -8,7 +8,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 15px 200px;
+    padding: 15px 50px;
     font-size: 0.95rem;
     color: #999;
 }
@@ -38,12 +38,15 @@
     display: flex;
     padding: 20px;
     border-radius: 10px;
-    margin: 10px 200px;
+    margin: 10px 50px;
+    gap: 30px;
 }
 
 .service-details-image {
-    width: 500px;
-    height: 300px
+    flex: 0 0 38%;
+    max-width: 480px;
+    height: auto;
+    min-height: 280px;
 }
 
 .contImg {
@@ -62,7 +65,9 @@
 
 .service-details-info {
     flex: 1;
-    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
 .service-details-info h2 {
@@ -84,7 +89,7 @@
 
 .cont_desc {
     padding: 20px;
-    margin: 10px 200px;
+    margin: 10px 50px;
 }
  
 .cont_desc h3 {
@@ -103,7 +108,7 @@
 
 .contDetail {
     padding: 20px;
-    margin: 10px 200px;
+    margin: 10px 50px;
 }
 
 .contDetail h3 {
@@ -159,10 +164,31 @@
 
 
 
+/* Responsive Design - Tablets (768px - 1024px) */
+@media screen and (max-width: 1024px) {
+    .breadcrumb {
+        padding: 15px 40px;
+    }
+
+    .service-details-content {
+        margin: 10px 40px;
+    }
+
+    .cont_desc {
+        margin: 10px 40px;
+    }
+
+    .contDetail {
+        margin: 10px 40px;
+    }
+}
+
+/* Responsive Design - Tablets Portrait (768px) */
 @media screen and (max-width: 768px) {
     .breadcrumb {
-        padding: 15px 10px;
-        font-size: 0.85rem;
+        padding: 15px 20px;
+        font-size: 0.9rem;
+        flex-wrap: wrap;
     }
 
     .breadcrumb-current {
@@ -173,15 +199,17 @@
     }
 
     .service-details-content {
-        padding: 10px;
+        padding: 15px;
         flex-direction: column;
-        margin: 10px 0px;
+        margin: 10px 20px;
     }
+
     .service-details-image {
         margin-right: 0;
         margin-bottom: 20px;
         width: 100%;
         height: auto;
+        min-height: 250px;
     }
 
     .service-details-info {
@@ -189,19 +217,240 @@
     }
 
     .service-details-info h2 {
+        font-size: 1.6rem;
+    }
+
+    .service-details-info p {
+        font-size: 0.95rem;
+    }
+
+    /* ============= Descripción=============  */
+    .cont_desc {
+        padding: 15px;
+        margin: 10px 20px;
+    }
+
+    .cont_desc h3 {
+        font-size: 1.3rem;
+    }
+
+    .cont_desc p {
+        font-size: 0.95rem;
+    }
+
+    /* ============= Detalles del Servicio=============  */
+    .contDetail {
+        padding: 15px;
+        margin: 10px 20px;
+    }
+
+    .contDetail h3 {
+        font-size: 1.3rem;
+    }
+
+    .contdata1 {
+        gap: 20px;
+    }
+
+    .contdata2 {
+        gap: 20px;
+    }
+
+    .price-highlight {
+        font-size: 1.3rem;
+    }
+}
+
+/* Responsive Design - Mobile (480px - 640px) */
+@media screen and (max-width: 640px) {
+    .service-details-container {
+        padding: 10px;
+    }
+
+    .breadcrumb {
+        padding: 12px 10px;
+        font-size: 0.85rem;
+        gap: 6px;
+    }
+
+    .breadcrumb-current {
+        max-width: 150px;
+    }
+
+    .service-details-content {
+        padding: 10px;
+        margin: 5px 10px;
+    }
+
+    .service-details-image {
+        min-height: 200px;
+    }
+
+    .service-details-info h2 {
         font-size: 1.4rem;
+        margin-bottom: 8px;
+    }
+
+    .service-details-info p {
+        font-size: 0.9rem;
+        margin-bottom: 15px;
     }
 
     /* ============= Descripción=============  */
     .cont_desc {
         padding: 10px;
-        margin: 10px 0px;
+        margin: 5px 10px;
+    }
+
+    .cont_desc h3 {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+    }
+
+    .cont_desc p {
+        font-size: 0.9rem;
+        margin-bottom: 15px;
     }
 
     /* ============= Detalles del Servicio=============  */
     .contDetail {
         padding: 10px;
-        margin: 10px 0px;
+        margin: 5px 10px;
+    }
+
+    .contDetail h3 {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+    }
+
+    .contdata1 {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .contdata2 {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .price, .availability, .delivery-time, .promotion {
+        padding: 4px 0;
+    }
+
+    .contdata p strong {
+        font-size: 0.88rem;
+    }
+
+    .contdata p {
+        font-size: 0.9rem;
+    }
+
+    .price-highlight {
+        font-size: 1.2rem;
+    }
+}
+
+/* Responsive Design - Small Mobile (320px - 480px) */
+@media screen and (max-width: 480px) {
+    .service-details-container {
+        padding: 5px;
+    }
+
+    .breadcrumb {
+        padding: 10px 8px;
+        font-size: 0.8rem;
+        gap: 5px;
+    }
+
+    .breadcrumb-separator {
+        font-size: 0.75rem;
+    }
+
+    .breadcrumb-current {
+        max-width: 120px;
+    }
+
+    .service-details-content {
+        padding: 8px;
+        margin: 5px 5px;
+    }
+
+    .service-details-image {
+        min-height: 180px;
+    }
+
+    .service-details-info h2 {
+        font-size: 1.2rem;
+        margin-bottom: 6px;
+    }
+
+    .service-details-info p {
+        font-size: 0.85rem;
+        margin-bottom: 12px;
+        line-height: 1.4;
+    }
+
+    /* ============= Descripción=============  */
+    .cont_desc {
+        padding: 8px;
+        margin: 5px 5px;
+    }
+
+    .cont_desc h3 {
+        font-size: 1.1rem;
+        margin-bottom: 8px;
+    }
+
+    .cont_desc p {
+        font-size: 0.85rem;
+        margin-bottom: 12px;
+        line-height: 1.4;
+    }
+
+    /* ============= Detalles del Servicio=============  */
+    .contDetail {
+        padding: 8px;
+        margin: 5px 5px;
+    }
+
+    .contDetail h3 {
+        font-size: 1.1rem;
+        margin-bottom: 8px;
+    }
+
+    .contdata p strong {
+        font-size: 0.85rem;
+        margin-bottom: 3px;
+    }
+
+    .contdata p {
+        font-size: 0.85rem;
+        margin: 6px 0;
+    }
+
+    .price-highlight {
+        font-size: 1.1rem;
+    }
+
+    /* Service not found styles */
+    .service-not-found {
+        padding: 20px;
+        min-height: 50vh;
+    }
+
+    .service-not-found h2 {
+        font-size: 1.8rem;
+        margin-bottom: 15px;
+    }
+
+    .service-not-found p {
+        font-size: 1rem;
+        margin-bottom: 20px;
+    }
+
+    .btn-back {
+        padding: 10px 20px;
+        font-size: 0.9rem;
     }
 }
 
