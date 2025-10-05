@@ -10,7 +10,12 @@ interface Service {
   id: number;
   nombre: string;
   descripcion: string;
+  descripcionCorta?: string;
+  descripcionCompleta?: string;
   precio: string;
+  disponibilidad?: string;
+  tiempoEntrega?: string;
+  promocion?: string;
   estado: 'Activo' | 'Inactivo';
   imagenUrl: string;
 }
@@ -78,7 +83,12 @@ export class Dashboard implements OnInit, OnDestroy {
     id: 0,
     nombre: '',
     descripcion: '',
+    descripcionCorta: '',
+    descripcionCompleta: '',
     precio: '',
+    disponibilidad: 'Disponible',
+    tiempoEntrega: '',
+    promocion: 'No',
     estado: 'Activo',
     imagenUrl: '',
     email: '',
@@ -420,7 +430,12 @@ export class Dashboard implements OnInit, OnDestroy {
       id: 0,
       nombre: '',
       descripcion: '',
+      descripcionCorta: '',
+      descripcionCompleta: '',
       precio: '',
+      disponibilidad: 'Disponible',
+      tiempoEntrega: '',
+      promocion: 'No',
       estado: 'Activo',
       imagenUrl: '',
       email: '',

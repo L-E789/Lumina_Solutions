@@ -8,7 +8,7 @@
         </div>
         <h3>{{ servicio.title }}</h3>
         <p>{{ servicio.description }}</p>
-        <a routerLink="/service-details" class="service-link">Ver más</a>
+        <a [routerLink]="['/service-details', servicio.id]" class="service-link">Ver más</a>
       </div>
     </div>
   </div>

@@ -1,37 +1,44 @@
-<div class="service-details-container">
+<div class="service-details-container" *ngIf="service">
+  <!-- Breadcrumb Navigation -->
+  <div class="breadcrumb">
+    <a (click)="goBack()" class="breadcrumb-link">Servicios</a>
+    <span class="breadcrumb-separator">/</span>
+    <span class="breadcrumb-current">{{ service.nombre }}</span>
+  </div>
+
   <div class="service-details-content">
     <div class="service-details-image">
       <div class="contImg">
-        <img src="/servicios/insta-redes.jpg" alt="Instalación de Redes" />
+        <img [src]="service.imagenUrl" [alt]="service.nombre" />
       </div>
     </div>
     <div class="service-details-info">
-      <h2>Instalación de Redes</h2>
-      <p>
-        Servicio de instalación de redes para hogares y pequeñas oficinas. Incluye cableado,
-        configuración de router y pruebas de conectividad.
-      </p>
-      <p>Precio: $7.000.00,00</p>
+      <h2>{{ service.nombre }}</h2>
+      <p>{{ service.descripcionCorta || service.descripcion }}</p>
+      <p class="price-highlight">Precio: {{ service.precio }}</p>
     </div>
   </div>
   <div class="cont_desc">
     <h3>Descripción</h3>
-    <p>
-      Nuestro servicio de instalación de redes está diseñado para proporcionar una conectividad confiable y de alta velocidad. Realizamos un análisis de su espacio para determinar la mejor ubicación para el router y los puntos de acceso. Utilizamos cableado de alta calidad y técnicas de instalación profesionales para asegurar un rendimiento óptimo. Además, configuramos su red para garantizar la seguridad y la privacidad de sus datos. Ofrecemos soporte técnico post-instalación para resolver cualquier problema que pueda surgir.
-    </p>
+    <p>{{ service.descripcionCompleta || service.descripcion }}</p>
   </div>
   <div class="contDetail">
     <h3>Detalles del Servicio</h3>
     <div class="contdata">
       <div class="contdata1">
-        <p class="price"><strong>Precio:</strong> $7.000.00,00</p>
-        <p class="availability"><strong>Disponibilidad:</strong> Disponible</p>
+        <p class="price"><strong>Precio:</strong> {{ service.precio }}</p>
+        <p class="availability"><strong>Disponibilidad:</strong> {{ service.disponibilidad || 'Disponible' }}</p>
       </div>
       <div class="contdata2">
-        <p class="delivery-time"><strong>Tiempo Entrega:</strong> 2 - 3 días</p>
-
-        <p class="promotion"><strong>Promoción:</strong> No</p>
+        <p class="delivery-time"><strong>Tiempo Entrega:</strong> {{ service.tiempoEntrega || 'Consultar' }}</p>
+        <p class="promotion"><strong>Promoción:</strong> {{ service.promocion || 'No' }}</p>
       </div>
     </div>
   </div>
+</div>
+
+<div class="service-not-found" *ngIf="serviceNotFound">
+  <h2>Servicio no encontrado</h2>
+  <p>Lo sentimos, el servicio que buscas no está disponible.</p>
+  <button (click)="goBack()" class="btn-back">Volver a servicios</button>
 </div>

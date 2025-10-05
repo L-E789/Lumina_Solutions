@@ -3,6 +3,37 @@
     background-color: #212121;
 }
 
+/* Breadcrumb Navigation */
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 200px;
+    font-size: 0.95rem;
+    color: #999;
+}
+
+.breadcrumb-link {
+    color: #999;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.breadcrumb-link:hover {
+    color: #96C4A8;
+    text-decoration: underline;
+}
+
+.breadcrumb-separator {
+    color: #666;
+}
+
+.breadcrumb-current {
+    color: #fff;
+    font-weight: 500;
+}
+
 .service-details-content {
     display: flex;
     padding: 20px;
@@ -129,6 +160,18 @@
 
 
 @media screen and (max-width: 768px) {
+    .breadcrumb {
+        padding: 15px 10px;
+        font-size: 0.85rem;
+    }
+
+    .breadcrumb-current {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 200px;
+    }
+
     .service-details-content {
         padding: 10px;
         flex-direction: column;
@@ -160,4 +203,53 @@
         padding: 10px;
         margin: 10px 0px;
     }
+}
+
+/* Service not found styles */
+.service-not-found {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    padding: 40px;
+    text-align: center;
+    color: #fff;
+}
+
+.service-not-found h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #e74c3c;
+}
+
+.service-not-found p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    color: #ccc;
+}
+
+.btn-back {
+    background-color: #96C4A8;
+    color: #000;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-back:hover {
+    background-color: #7ab093;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(150, 196, 168, 0.3);
+}
+
+/* Price highlight */
+.price-highlight {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #96C4A8 !important;
 }

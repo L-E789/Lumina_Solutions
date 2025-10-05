@@ -11,7 +11,7 @@ export const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
     { path: 'home', component: Home },
     { path: 'services', component: Services },
-    { path: 'service-details', component: ServiceDetails },
+    { path: 'service-details/:id', component: ServiceDetails },
     { path: 'contact', component: Contact },
     { path: 'login', component: Login },
     { path: 'dashboard', component: Dashboard, canActivate: [adminGuard] },
