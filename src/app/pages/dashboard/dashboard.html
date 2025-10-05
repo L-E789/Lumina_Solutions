@@ -1,1 +1,433 @@
-<p>dashboard works!</p>
+<div class="dashboard-container">
+  <!-- Mobile Header -->
+  <header class="mobile-header">
+    <button class="mobile-menu-toggle" (click)="toggleMobileMenu()" [class.open]="isMobileMenuOpen" 
+            aria-label="Abrir menú de navegación" [attr.aria-expanded]="isMobileMenuOpen">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <h1 class="mobile-title">{{ getSectionTitle() }}</h1>
+  </header>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" [class.mobile-open]="isMobileMenuOpen">
+    <nav class="sidebar-nav">
+      <ul>
+        <li class="nav-item" [class.active]="activeSection === 'servicios'">
+          <button class="nav-button" (click)="selectSection('servicios'); closeMobileMenu()">
+            <img src="services.png" alt="Servicios" class="nav-icon" />
+            <span class="nav-text">Servicios</span>
+          </button>
+        </li>
+        <li class="nav-item" [class.active]="activeSection === 'clientes'">
+          <button class="nav-button" (click)="selectSection('clientes'); closeMobileMenu()">
+            <img src="clients.png" alt="Clientes" class="nav-icon" />
+            <span class="nav-text">Clientes</span>
+          </button>
+        </li>
+        <li class="nav-item" [class.active]="activeSection === 'ventas'">
+          <button class="nav-button" (click)="selectSection('ventas'); closeMobileMenu()">
+            <img src="seles.png" alt="Ventas" class="nav-icon" />
+            <span class="nav-text">Ventas</span>
+          </button>
+        </li>
+        <li class="nav-item" [class.active]="activeSection === 'configuracion'">
+          <button class="nav-button" (click)="selectSection('configuracion'); closeMobileMenu()">
+            <img src="configurations.png" alt="Configuración" class="nav-icon" />
+            <span class="nav-text">Configuración</span>
+          </button>
+        </li>
+      </ul>
+    </nav>
+    
+    <div class="sidebar-footer">
+      <button class="logout-button" (click)="logout()">
+        <img src="exit.png" alt="Salir" class="nav-icon" />
+        <span class="nav-text">Salir</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Header -->
+    <header class="dashboard-header">
+      <h1 class="page-title">{{ getSectionTitle() }}</h1>
+      <button class="create-button" (click)="createItem()">
+        {{ getCreateButtonText() }}
+      </button>
+    </header>
+
+    <!-- Search Bar -->
+    <div class="search-container">
+      <div class="search-box">
+        <img src="search.png" alt="Buscar" class="search-icon" />
+        <label for="dashboard-search" class="visually-hidden">Buscar en {{getSectionName()}}</label>
+        <input 
+          id="dashboard-search"
+          type="text" 
+          [placeholder]="getSearchPlaceholder()" 
+          [(ngModel)]="searchTerm"
+          (input)="filterContent()"
+          class="search-input"
+          [attr.aria-label]="'Buscar en ' + getSectionName()"
+        >
+      </div>
+    </div>
+
+    <!-- Content Tables -->
+    <div class="table-container">
+      
+      <!-- Services Table -->
+      <table *ngIf="activeSection === 'servicios'" class="data-table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Precio</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let service of filteredServices" class="table-row">
+            <td class="item-name">{{ service.nombre }}</td>
+            <td class="item-description">{{ service.descripcion }}</td>
+            <td class="item-price">${{ service.precio }}</td>
+            <td>
+              <button class="status-button" (click)="openChangeStatusPopup(service)" 
+                      [ngClass]="{'active': service.estado === 'Activo', 'inactive': service.estado === 'Inactivo'}">
+                {{ service.estado }}
+              </button>
+            </td>
+            <td>
+              <button class="edit-button" (click)="editService(service)">
+                Editar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Clients Table -->
+      <table *ngIf="activeSection === 'clientes'" class="data-table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Empresa</th>
+            <th>Teléfono</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let client of filteredClients" class="table-row">
+            <td class="item-name">{{ client.nombre }}</td>
+            <td class="item-email">{{ client.email }}</td>
+            <td class="item-company">{{ client.empresa }}</td>
+            <td class="item-phone">{{ client.telefono }}</td>
+            <td>
+              <span 
+                class="status-badge" 
+                [class.active]="client.estado === 'Activo'"
+                [class.inactive]="client.estado === 'Inactivo'"
+                [class.pending]="client.estado === 'Por contactar'"
+              >
+                {{ client.estado }}
+              </span>
+            </td>
+            <td>
+              <button *ngIf="client.estado !== 'Por contactar'" class="edit-button" (click)="editClient(client)">
+                Editar
+              </button>
+              <button *ngIf="client.estado === 'Por contactar'" class="info-button" (click)="showClientInfo(client)">
+                Información
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Sales Table -->
+      <table *ngIf="activeSection === 'ventas'" class="data-table">
+        <thead>
+          <tr>
+            <th>Cliente</th>
+            <th>Servicio</th>
+            <th>Fecha</th>
+            <th>Monto</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let sale of filteredSales" class="table-row">
+            <td class="item-name">{{ sale.cliente }}</td>
+            <td class="item-service">{{ sale.servicio }}</td>
+            <td class="item-date">{{ sale.fecha }}</td>
+            <td class="item-price">${{ sale.monto }}</td>
+            <td>
+              <span 
+                class="status-badge" 
+                [class.completed]="sale.estado === 'Completada'"
+                [class.pending]="sale.estado === 'Pendiente'"
+                [class.cancelled]="sale.estado === 'Cancelada'"
+              >
+                {{ sale.estado }}
+              </span>
+            </td>
+            <td>
+              <button class="edit-button" (click)="editSale(sale)">
+                Editar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Configuration Table -->
+      <table *ngIf="activeSection === 'configuracion'" class="data-table">
+        <thead>
+          <tr>
+            <th>Categoría</th>
+            <th>Configuración</th>
+            <th>Valor</th>
+            <th>Descripción</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let config of filteredConfigs" class="table-row">
+            <td class="item-category">{{ config.categoria }}</td>
+            <td class="item-name">{{ config.configuracion }}</td>
+            <td class="item-value">{{ config.valor }}</td>
+            <td class="item-description">{{ config.descripcion }}</td>
+            <td>
+              <button class="edit-button" (click)="editConfig(config)">
+                Editar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+    <!-- Popup for Creating/Editing -->
+    <app-popup 
+      [title]="popupTitle" 
+      [isVisible]="isPopupVisible" 
+      (close)="closePopup()">
+      
+      <!-- Formulario para Servicios -->
+      <form *ngIf="activeSection === 'servicios'" (submit)="saveItem(); $event.preventDefault()">
+        <div class="form-group">
+          <label for="service-name">Nombre del servicio:</label>
+          <input id="service-name" type="text" [(ngModel)]="formData.nombre" name="nombre" placeholder="Ingrese el nombre del servicio" required />
+        </div>
+
+        <div class="form-group">
+          <label for="service-description">Descripción:</label>
+          <textarea id="service-description" [(ngModel)]="formData.descripcion" name="descripcion" placeholder="Ingrese la descripción" required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="service-price">Precio:</label>
+          <input id="service-price" type="text" [(ngModel)]="formData.precio" name="precio" placeholder="Ingrese el precio" required />
+        </div>
+
+        <div class="form-group">
+          <label for="service-image">URL de la imagen:</label>
+          <input id="service-image" type="text" [(ngModel)]="formData.imagenUrl" name="imagenUrl" placeholder="Ingrese la URL de la imagen" />
+        </div>
+
+        <div class="form-group">
+          <label for="service-status">Estado:</label>
+          <select id="service-status" [(ngModel)]="formData.estado" name="estado">
+            <option value="Activo">Activo</option>
+            <option value="Inactivo">Inactivo</option>
+          </select>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" (click)="closePopup()">Cancelar</button>
+          <button type="submit" class="btn-save">{{ isEditMode ? 'Actualizar' : 'Guardar' }}</button>
+        </div>
+      </form>
+
+      <!-- Formulario para Clientes -->
+      <form *ngIf="activeSection === 'clientes'" (submit)="saveItem(); $event.preventDefault()">
+        <div class="form-group">
+          <label for="client-name">Nombre:</label>
+          <input id="client-name" type="text" [(ngModel)]="formData.nombre" name="nombre" placeholder="Ingrese el nombre" required />
+        </div>
+
+        <div class="form-group">
+          <label for="client-email">Email:</label>
+          <input id="client-email" type="email" [(ngModel)]="formData.email" name="email" placeholder="Ingrese el email" required />
+        </div>
+
+        <div class="form-group">
+          <label for="client-phone">Teléfono:</label>
+          <input id="client-phone" type="tel" [(ngModel)]="formData.telefono" name="telefono" placeholder="Ingrese el teléfono" required />
+        </div>
+
+        <div class="form-group">
+          <label for="client-company">Empresa:</label>
+          <input id="client-company" type="text" [(ngModel)]="formData.empresa" name="empresa" placeholder="Ingrese la empresa" required />
+        </div>
+
+        <div class="form-group">
+          <label for="client-status">Estado:</label>
+          <select id="client-status" [(ngModel)]="formData.estado" name="estado">
+            <option value="Activo">Activo</option>
+            <option value="Inactivo">Inactivo</option>
+          </select>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" (click)="closePopup()">Cancelar</button>
+          <button type="submit" class="btn-save">{{ isEditMode ? 'Actualizar' : 'Guardar' }}</button>
+        </div>
+      </form>
+
+      <!-- Formulario para Ventas -->
+      <form *ngIf="activeSection === 'ventas'" (submit)="saveItem(); $event.preventDefault()">
+        <div class="form-group">
+          <label for="sale-client">Cliente:</label>
+          <input id="sale-client" type="text" [(ngModel)]="formData.cliente" name="cliente" placeholder="Ingrese el cliente" required />
+        </div>
+
+        <div class="form-group">
+          <label for="sale-service">Servicio:</label>
+          <input id="sale-service" type="text" [(ngModel)]="formData.servicio" name="servicio" placeholder="Ingrese el servicio" required />
+        </div>
+
+        <div class="form-group">
+          <label for="sale-date">Fecha:</label>
+          <input id="sale-date" type="date" [(ngModel)]="formData.fecha" name="fecha" required />
+        </div>
+
+        <div class="form-group">
+          <label for="sale-amount">Monto:</label>
+          <input id="sale-amount" type="text" [(ngModel)]="formData.monto" name="monto" placeholder="Ingrese el monto" required />
+        </div>
+
+        <div class="form-group">
+          <label for="sale-status">Estado:</label>
+          <select id="sale-status" [(ngModel)]="formData.estado" name="estado">
+            <option value="Completada">Completada</option>
+            <option value="Pendiente">Pendiente</option>
+            <option value="Cancelada">Cancelada</option>
+          </select>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" (click)="closePopup()">Cancelar</button>
+          <button type="submit" class="btn-save">{{ isEditMode ? 'Actualizar' : 'Guardar' }}</button>
+        </div>
+      </form>
+
+      <!-- Formulario para Configuración -->
+      <form *ngIf="activeSection === 'configuracion'" (submit)="saveItem(); $event.preventDefault()">
+        <div class="form-group">
+          <label for="config-category">Categoría:</label>
+          <input id="config-category" type="text" [(ngModel)]="formData.categoria" name="categoria" placeholder="Ingrese la categoría" required />
+        </div>
+
+        <div class="form-group">
+          <label for="config-name">Configuración:</label>
+          <input id="config-name" type="text" [(ngModel)]="formData.configuracion" name="configuracion" placeholder="Ingrese la configuración" required />
+        </div>
+
+        <div class="form-group">
+          <label for="config-value">Valor:</label>
+          <input id="config-value" type="text" [(ngModel)]="formData.valor" name="valor" placeholder="Ingrese el valor" required />
+        </div>
+
+        <div class="form-group">
+          <label for="config-description">Descripción:</label>
+          <textarea id="config-description" [(ngModel)]="formData.descripcion" name="descripcion" placeholder="Ingrese la descripción" required></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" (click)="closePopup()">Cancelar</button>
+          <button type="submit" class="btn-save">{{ isEditMode ? 'Actualizar' : 'Guardar' }}</button>
+        </div>
+      </form>
+      
+    </app-popup>
+
+    <!-- Change Status Popup -->
+    <app-change-status-popup 
+      *ngIf="isChangeStatusPopupVisible" 
+      [isVisible]="isChangeStatusPopupVisible" 
+      [currentStatus]="currentStatus" 
+      (statusChanged)="handleStatusChange($event)" 
+      (close)="closeChangeStatusPopup()">
+    </app-change-status-popup>
+
+    <!-- Popup elegante para mostrar información de clientes "Por contactar" -->
+    <div *ngIf="isInfoPopupVisible && selectedClient" class="client-info-popup">
+      <div class="client-info-overlay" (click)="closeInfoPopup()"></div>
+      <div class="client-info-content">
+        <div class="client-info-header">
+          <h2>Información del Cliente</h2>
+          <button class="client-info-close-btn" (click)="closeInfoPopup()" aria-label="Cerrar">&times;</button>
+        </div>
+        
+        <div class="client-info-body">
+          <div class="client-info-section">
+            <div class="info-row">
+              <span class="info-label">ID:</span>
+              <span class="info-value">{{ selectedClient.id }}</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Nombre:</span>
+              <span class="info-value">{{ selectedClient.nombre }}</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Email:</span>
+              <span class="info-value info-email">{{ selectedClient.email }}</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Teléfono:</span>
+              <span class="info-value">{{ selectedClient.telefono }}</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Empresa:</span>
+              <span class="info-value">{{ selectedClient.empresa }}</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Fecha de Registro:</span>
+              <span class="info-value">{{ selectedClient.fechaRegistro }}</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Estado:</span>
+              <span class="info-value">
+                <span class="status-badge pending">{{ selectedClient.estado }}</span>
+              </span>
+            </div>
+            <div class="info-row" *ngIf="selectedClient.servicio">
+              <span class="info-label">Servicio Solicitado:</span>
+              <span class="info-value info-service">{{ selectedClient.servicio }}</span>
+            </div>
+          </div>
+          
+          <div class="client-info-section" *ngIf="selectedClient.descripcion">
+            <div class="info-description">
+              <span class="info-label">Descripción de la solicitud:</span>
+              <div class="info-description-text">{{ selectedClient.descripcion }}</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="client-info-footer">
+          <button class="btn-close-info" (click)="closeInfoPopup()">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

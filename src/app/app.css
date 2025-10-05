@@ -25,6 +25,13 @@ body {
   overflow-x: hidden;
 }
 
+/* Modo dashboard sin header/footer */
+.main-content.dashboard-mode {
+  padding: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
 /* Media queries para el contenedor principal */
 @media (max-width: 768px) {
   .app-container {
