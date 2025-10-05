@@ -44,6 +44,22 @@
     margin-bottom: 15px;
 }
 
+.service-link {
+    display: inline-block;
+    margin-top: 15px;
+    color: #96C4A8;
+    font-size: 1rem;
+    font-weight: bold;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.service-link:hover {
+    color: #fff;
+}
+
+
+
 h3 {
     font-size: 1.3rem;
     color: #fff;
